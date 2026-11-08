@@ -1,34 +1,25 @@
-<<<<<<< HEAD
 const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-
+const path = require('path');
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(__dirname));
 
+// Home page
 app.get('/', (req, res) => {
-  res.send('ShopNest Backend Running... 🚀');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
+// Agar koi aur page ho to wahi index kholo
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-=======
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('ShopNest Backend Running... 🚀');
+  console.log(`ShopNest running on port ${PORT}`);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
->>>>>>> 4542b744435f815ea77d2b8395fc1049014dd8a0
-});
+module.exports = app;
