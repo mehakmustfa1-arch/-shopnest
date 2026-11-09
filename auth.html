@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><title>Login - ShopNest</title>
+<style>body{font-family:Arial;display:flex;justify-content:center;padding-top:80px} .box{border:1px solid #ddd;padding:25px;border-radius:12px;width:300px} input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px} button{width:100%;padding:11px;background:#6d28d9;color:#fff;border:none;border-radius:8px;cursor:pointer}</style>
+</head><body>
+<div class="box">
+<h2>ShopNest Login</h2>
+<input id="name" placeholder="Name (Signup ke liye)">
+<input id="email" placeholder="Email" value="admin@shopnest.com">
+<input id="pass" type="password" placeholder="Password" value="123456">
+<button onclick="signup()">Signup</button><br><br>
+<button onclick="login()" style="background:#111">Login</button>
+<p id="msg"></p>
+<a href="index.html">Back to Shop</a>
+</div>
+<script>
+async function signup(){
+  let r = await fetch('http://localhost:5000/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name.value,email:email.value,password:pass.value})});
+  let d = await r.json(); msg.innerText = d.msg;
+}
+async function login(){
+  let r = await fetch('http://localhost:5000/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:pass.value})});
+  let d = await r.json();
+  if(d.token){ localStorage.setItem('token',d.token); localStorage.setItem('role',d.role); msg.innerText='Login Ho Gaya! Role: '+d.role; }
+  else msg.innerText = d.msg;
+}
+</script></body></html>
