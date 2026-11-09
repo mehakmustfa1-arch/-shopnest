@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopNest - Your Store</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#fff7f0}
+header{background:#ff4d6d;color:white;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+header h1{font-size:22px}
+header button{background:white;color:#ff4d6d;border:none;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer}
+.hero{text-align:center;padding:40px 20px}
+.hero h2{font-size:32px;color:#222}
+.hero p{color:#666;margin:10px 0 20px}
+.hero a{background:#ff4d6d;color:white;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:20px;max-width:1000px;margin:auto}
+.card{background:white;border-radius:15px;padding:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:10px}
+.card h3{margin:10px 0 5px;font-size:16px}
+.card p{color:#ff4d6d;font-weight:bold}
+.card button{margin-top:8px;background:#111;color:white;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;width:100%}
+footer{text-align:center;padding:20px;color:#888}
+</style>
+</head>
+<body>
+<header>
+<h1>🛍️ ShopNest</h1>
+<button onclick="showCart()">Cart (<span id="count">0</span>)</button>
+</header>
+
+<div class="hero">
+<h2>Shop Smart, Live Better</h2>
+<p>Best products at best prices - Delivered to your door</p>
+<a href="#products">Shop Now ↓</a>
+</div>
+
+<div class="grid" id="products"></div>
+<footer>Made with ❤️ by ShopNest • © 2026</footer>
+
+<script>
+const products=[
+{name:"Stylish Handbag",price:2499,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"},
+{name:"Smart Watch",price:5999,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
+{name:"Sneakers",price:3499,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Sunglasses",price:1299,img:"https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400"},
+{name:"Headphones",price:3999,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
+{name:"Perfume",price:1999,img:"https://images.unsplash.com/photo-1541643600914-78b084683601?w=400"},
+];
+let count=0;
+const box=document.getElementById('products');
+products.forEach(p=>{
+box.innerHTML+=`<div class="card"><img src="${p.img}"><h3>${p.name}</h3><p>Rs. ${p.price}</p><button onclick="add()">Add to Cart</button></div>`
+});
+function add(){count++;document.getElementById('count').innerText=count;alert("Added to Cart!")}
+function showCart(){alert("You have "+count+" items in cart")}
+</script>
+</body>
+</html>
