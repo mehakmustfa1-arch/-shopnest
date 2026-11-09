@@ -3,57 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShopNest - Your Store</title>
+<title>ShopNest - Online Shopping</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#fff7f0}
-header{background:#ff4d6d;color:white;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-header h1{font-size:22px}
-header button{background:white;color:#ff4d6d;border:none;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer}
-.hero{text-align:center;padding:40px 20px}
-.hero h2{font-size:32px;color:#222}
-.hero p{color:#666;margin:10px 0 20px}
-.hero a{background:#ff4d6d;color:white;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:20px;max-width:1000px;margin:auto}
-.card{background:white;border-radius:15px;padding:12px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
-.card img{width:100%;height:140px;object-fit:cover;border-radius:10px}
-.card h3{margin:10px 0 5px;font-size:16px}
-.card p{color:#ff4d6d;font-weight:bold}
-.card button{margin-top:8px;background:#111;color:white;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;width:100%}
-footer{text-align:center;padding:20px;color:#888}
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+header { background:#ff3e6c; color:white; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
+header h1 { font-size:24px; }
+header input { padding:8px 15px; width:300px; border:none; border-radius:20px; outline:none; }
+.hero { background:#ffeef2; text-align:center; padding:50px 20px; }
+.hero h2 { font-size:36px; color:#333; }
+.hero p { margin:10px 0 20px; color:#666; }
+.hero button { background:#ff3e6c; color:white; border:none; padding:12px 25px; border-radius:25px; font-size:16px; cursor:pointer; }
+.products { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; padding:30px; }
+.card { width:220px; border:1px solid #eee; border-radius:12px; overflow:hidden; text-align:center; padding-bottom:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+.card img { width:100%; height:200px; object-fit:cover; }
+.card h3 { margin:10px 0 5px; font-size:17px; }
+.card p { color:#ff3e6c; font-weight:bold; }
+.card button { margin-top:10px; background:black; color:white; border:none; padding:8px 20px; border-radius:20px; cursor:pointer; }
+footer { text-align:center; padding:20px; background:#f5f5f5; color:#888; }
 </style>
 </head>
 <body>
 <header>
-<h1>🛍️ ShopNest</h1>
-<button onclick="showCart()">Cart (<span id="count">0</span>)</button>
+<h1>ShopNest 🛍️</h1>
+<input type="text" placeholder="Search for products...">
+<span>Cart (0)</span>
 </header>
-
 <div class="hero">
-<h2>Shop Smart, Live Better</h2>
-<p>Best products at best prices - Delivered to your door</p>
-<a href="#products">Shop Now ↓</a>
+<h2>Big Sale - Up to 50% Off</h2>
+<p>Best Fashion, Shoes & Accessories</p>
+<button>Shop Now</button>
 </div>
-
-<div class="grid" id="products"></div>
-<footer>Made with ❤️ by ShopNest • © 2026</footer>
-
-<script>
-const products=[
-{name:"Stylish Handbag",price:2499,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"},
-{name:"Smart Watch",price:5999,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{name:"Sneakers",price:3499,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{name:"Sunglasses",price:1299,img:"https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400"},
-{name:"Headphones",price:3999,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{name:"Perfume",price:1999,img:"https://images.unsplash.com/photo-1541643600914-78b084683601?w=400"},
-];
-let count=0;
-const box=document.getElementById('products');
-products.forEach(p=>{
-box.innerHTML+=`<div class="card"><img src="${p.img}"><h3>${p.name}</h3><p>Rs. ${p.price}</p><button onclick="add()">Add to Cart</button></div>`
-});
-function add(){count++;document.getElementById('count').innerText=count;alert("Added to Cart!")}
-function showCart(){alert("You have "+count+" items in cart")}
-</script>
+<div class="products">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400">
+<h3>Stylish Watch</h3>
+<p>Rs. 2,499</p>
+<button>Add to Cart</button>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
+<h3>Sports Shoes</h3>
+<p>Rs. 3,999</p>
+<button>Add to Cart</button>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400">
+<h3>Sneakers</h3>
+<p>Rs. 4,499</p>
+<button>Add to Cart</button>
+</div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400">
+<h3>Sunglasses</h3>
+<p>Rs. 1,299</p>
+<button>Add to Cart</button>
+</div>
+</div>
+<footer>© 2026 ShopNest - Made with Love</footer>
 </body>
 </html>
