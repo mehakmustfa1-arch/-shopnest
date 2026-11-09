@@ -5,60 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShopNest - Online Shopping</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-header { background:#ff3e6c; color:white; padding:15px 30px; display:flex; justify-content:space-between; align-items:center; }
-header h1 { font-size:24px; }
-header input { padding:8px 15px; width:300px; border:none; border-radius:20px; outline:none; }
-.hero { background:#ffeef2; text-align:center; padding:50px 20px; }
-.hero h2 { font-size:36px; color:#333; }
-.hero p { margin:10px 0 20px; color:#666; }
-.hero button { background:#ff3e6c; color:white; border:none; padding:12px 25px; border-radius:25px; font-size:16px; cursor:pointer; }
-.products { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; padding:30px; }
-.card { width:220px; border:1px solid #eee; border-radius:12px; overflow:hidden; text-align:center; padding-bottom:15px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
-.card img { width:100%; height:200px; object-fit:cover; }
-.card h3 { margin:10px 0 5px; font-size:17px; }
-.card p { color:#ff3e6c; font-weight:bold; }
-.card button { margin-top:10px; background:black; color:white; border:none; padding:8px 20px; border-radius:20px; cursor:pointer; }
-footer { text-align:center; padding:20px; background:#f5f5f5; color:#888; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+header{background:#ff2e88;color:#fff;padding:15px 20px;display:flex;align-items:center;gap:15px;flex-wrap:wrap;position:sticky;top:0;z-index:10}
+.logo{font-size:24px;font-weight:900;cursor:pointer}
+.search{flex:1;display:flex;max-width:500px}
+.search input{flex:1;padding:11px;border:none;border-radius:8px 0 0 8px;outline:none;font-size:15px}
+.search button{padding:11px 18px;border:none;background:#222;color:#fff;border-radius:0 8px 8px 0;cursor:pointer;font-weight:bold}
+.cart-btn{background:#fff;color:#ff2e88;border:none;padding:10px 18px;border-radius:20px;font-weight:900;cursor:pointer}
+.hero{background:#ffe3ef;text-align:center;padding:45px 20px}
+.hero h1{font-size:42px;color:#222}
+.hero h1 span{color:#ff2e88}
+.hero p{margin:12px 0;color:#555}
+.hero button{background:#ff2e88;color:#fff;border:none;padding:13px 28px;border-radius:25px;font-size:16px;font-weight:bold;cursor:pointer}
+.section{padding:25px 20px;max-width:1100px;margin:auto}
+.section h2{margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.card{background:#fff;border:1px solid #eee;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:14px}
+.card-body h3{font-size:16px}
+.price{color:#ff2e88;font-weight:900;margin:8px 0;font-size:18px}
+.price s{color:#999;font-size:13px;font-weight:400}
+.add{background:#ff2e88;color:#fff;border:none;width:100%;padding:11px;border-radius:8px;font-weight:bold;cursor:pointer}
+.add:active{transform:scale(.97)}
+/* Cart Drawer */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20}
+.drawer{display:none;position:fixed;right:0;top:0;width:380px;max-width:92%;height:100%;background:#fff;z-index:30;padding:20px;overflow:auto}
+.drawer h2{margin-bottom:15px}
+.cart-item{display:flex;gap:10px;border-bottom:1px solid #eee;padding:12px 0;align-items:center}
+.cart-item img{width:65px;height:65px;object-fit:cover;border-radius:8px}
+.qty button{padding:4px 10px;margin:0 3px;cursor:pointer}
+.remove{color:red;border:none;background:none;cursor:pointer;font-size:13px}
+.total{font-size:19px;font-weight:900;margin:15px 0;display:flex;justify-content:space-between}
+.checkout{background:#22c55e;color:#fff;border:none;width:100%;padding:14px;border-radius:10px;font-weight:900;font-size:16px;cursor:pointer}
+.close{float:right;border:none;background:#eee;padding:6px 12px;border-radius:50%;cursor:pointer}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:12px 20px;border-radius:25px;display:none;z-index:50}
+@media(max-width:600px){.hero h1{font-size:30px}}
 </style>
 </head>
 <body>
+
 <header>
-<h1>ShopNest 🛍️</h1>
-<input type="text" placeholder="Search for products...">
-<span>Cart (0)</span>
+<div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">ShopNest 🛍️</div>
+<div class="search">
+<input id="searchInput" placeholder="Search Watch, Shoes, Sunglasses..." oninput="doSearch()">
+<button onclick="doSearch()">Search</button>
+</div>
+<button class="cart-btn" onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
 </header>
+
 <div class="hero">
-<h2>Big Sale - Up to 50% Off</h2>
-<p>Best Fashion, Shoes & Accessories</p>
-<button>Shop Now</button>
+<h1>Big Sale <span>50% OFF</span></h1>
+<p>Best Quality Products at Lowest Price - Free Delivery in Pakistan</p>
+<button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now ↓</button>
 </div>
-<div class="products">
-<div class="card">
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400">
-<h3>Stylish Watch</h3>
-<p>Rs. 2,499</p>
-<button>Add to Cart</button>
+
+<div class="section" id="products">
+<h2>🔥 Trending Products</h2>
+<div class="grid" id="productGrid"></div>
+<p id="noResult" style="display:none;text-align:center;padding:20px;color:#888">Koi product nahi mila. Dusra naam likh ke dekhein.</p>
 </div>
-<div class="card">
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
-<h3>Sports Shoes</h3>
-<p>Rs. 3,999</p>
-<button>Add to Cart</button>
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer" id="drawer">
+<button class="close" onclick="closeCart()">X</button>
+<h2>Your Cart 🛒</h2>
+<div id="cartItems"></div>
+<div class="total"><span>Total:</span><span>Rs <span id="cartTotal">0</span></span></div>
+<label><input type="radio" name="pay" checked> Cash on Delivery</label><br>
+<label><input type="radio" name="pay"> JazzCash</label><br><br>
+<button class="checkout" onclick="checkout()">Place Order ✅</button>
+<p style="font-size:12px;color:#888;margin-top:10px;text-align:center">Order abhi demo mode me hai, backend lagne ke baad save hoga.</p>
 </div>
-<div class="card">
-<img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400">
-<h3>Sneakers</h3>
-<p>Rs. 4,499</p>
-<button>Add to Cart</button>
-</div>
-<div class="card">
-<img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400">
-<h3>Sunglasses</h3>
-<p>Rs. 1,299</p>
-<button>Add to Cart</button>
-</div>
-</div>
-<footer>© 2026 ShopNest - Made with Love</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const products = [
+{id:1, name:"Luxury Watch", price:2499, old:4999, img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"},
+{id:2, name:"Sports Shoes", price:3499, old:5999, img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+{id:3, name:"White Sneakers", price:2999, old:4500, img:"https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500"},
+{id:4, name:"Sunglasses", price:1299, old:2499, img:"https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500"},
+{id:5, name:"Headphones", price:3999, old:7999, img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"},
+{id:6, name:"Smart Watch", price:5999, old:9999, img:"https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500"},
+{id:7, name:"Hand Bag", price:1999, old:3499, img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
+{id:8, name:"Perfume", price:1799, old:2999, img:"https://images.unsplash.com/photo-1541643600914-78b084683601?w=500"},
+];
+let cart = JSON.parse(localStorage.getItem('shopnest_cart') || '[]');
+
+function renderProducts(list = products){
+  const grid = document.getElementById('productGrid');
+  document.getElementById('noResult').style.display = list.length ? 'none' : 'block';
+  grid.innerHTML = list.map(p=>`
+    <div class="card">
+      <img src="${p.img}" onclick="showToast('${p.name} - Rs ${p.price}')">
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <div class="price">Rs ${p.price} <s>Rs ${p.old}</s></div>
+        <button class="add" onclick="addToCart(${p.id})">Add to Cart</button>
+      </div>
+    </div>`).join('');
+}
+function doSearch(){
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  renderProducts(products.filter(p=>p.name.toLowerCase().includes(q)));
+}
+function addToCart(id){
+  const found = cart.find(c=>c.id===id);
+  if(found) found.qty++;
+  else { const p = products.find(x=>x.id===id); cart.push({...p, qty:1}); }
+  saveCart(); showToast('Added to Cart ✅'); updateCount();
+}
+function saveCart(){ localStorage.setItem('shopnest_cart', JSON.stringify(cart)); }
+function updateCount(){ document.getElementById('cartCount').innerText = cart.reduce((s,c)=>s+c.qty,0); }
+function openCart(){
+  document.getElementById('overlay').style.display='block';
+  document.getElementById('drawer').style.display='block';
+  renderCart();
+}
+function closeCart(){
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('drawer').style.display='none';
+}
+function renderCart(){
+  const box = document.getElementById('cartItems');
+  if(!cart.length){ box.innerHTML='<p style="text-align:center;color:#888;padding:20px">Cart khaali hai. Pehle kuch add karein.</p>'; }
+  else{
+    box.innerHTML = cart.map((c,i)=>`
+    <div class="cart-item">
+      <img src="${c.img}">
+      <div style="flex:1"><b>${c.name}</b><br>Rs ${c.price}
+      <div class="qty"><button onclick="changeQty(${i},-1)">-</button>${c.qty}<button onclick="changeQty(${i},1)">+</button></div>
+      </div>
+      <button class="remove" onclick="removeItem(${i})">Remove</button>
+    </div>`).join('');
+  }
+  document.getElementById('cartTotal').innerText = cart.reduce((s,c)=>s+c.price*c.qty,0);
+}
+function changeQty(i,d){ cart[i].qty+=d; if(cart[i].qty<=0) cart.splice(i,1); saveCart(); updateCount(); renderCart(); }
+function removeItem(i){ cart.splice(i,1); saveCart(); updateCount(); renderCart(); }
+function checkout(){
+  if(!cart.length){ alert('Pehle cart me kuch add karein!'); return; }
+  alert('Order Placed Successfully! 🎉\nTotal: Rs ' + document.getElementById('cartTotal').innerText + '\nHum aap se jald rabta karenge.');
+  cart=[]; saveCart(); updateCount(); renderCart(); closeCart();
+}
+function showToast(msg){
+  const t=document.getElementById('toast'); t.innerText=msg; t.style.display='block';
+  setTimeout(()=>t.style.display='none',2000);
+}
+renderProducts(); updateCount();
+</script>
 </body>
 </html>
