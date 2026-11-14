@@ -1,26 +1,95 @@
 <!DOCTYPE html>
-<html><head><title>Login - ShopNest</title>
-<style>body{font-family:Arial;display:flex;justify-content:center;padding-top:80px} .box{border:1px solid #ddd;padding:25px;border-radius:12px;width:300px} input{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:8px} button{width:100%;padding:11px;background:#6d28d9;color:#fff;border:none;border-radius:8px;cursor:pointer}</style>
-</head><body>
+<html>
+<head>
+<title>Login - ShopNest</title>
+<style>
+body{font-family:Arial; background:#f5f5f5; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+.box{background:white; padding:30px; border-radius:12px; width:320px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+.box h2{margin:0;}
+.box p{color:gray; font-size:14px;}
+.box input{width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:8px; box-sizing:border-box;}
+.signup-btn{width:100%; padding:12px; background:#7c3aed; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px; margin-top:10px;}
+.login-btn{width:100%; padding:12px; background:black; color:white; border:none; border-radius:8px; cursor:pointer; font-size:16px; margin-top:10px;}
+#msg{color:#7c3aed; font-size:14px; min-height:20px; font-weight:bold;}
+a{color:#7c3aed; text-decoration:none; font-size:14px;}
+</style>
+</head>
+<body>
+
 <div class="box">
-<h2>ShopNest Login</h2>
-<input id="name" placeholder="Name (Signup ke liye)">
-<input id="email" placeholder="Email" value="admin@shopnest.com">
-<input id="pass" type="password" placeholder="Password" value="123456">
-<button onclick="signup()">Signup</button><br><br>
-<button onclick="login()" style="background:#111">Login</button>
-<p id="msg"></p>
-<a href="index.html">Back to Shop</a>
+  <h2>Welcome Back</h2>
+  <p>Sign in to your ShopNest account</p>
+
+  <input id="name" placeholder="Name (Signup ke liye)">
+  <input id="email" placeholder="Email">
+  <input id="pass" type="password" placeholder="Password">
+
+  <p id="msg"></p>
+
+  <button class="signup-btn" onclick="signup()">Signup</button>
+  <button class="login-btn" onclick="login()">Login</button>
+
+  <br><br>
+  <a href="index.html">← Back to Shop</a>
 </div>
+
 <script>
+const msg = document.getElementById('msg');
+
 async function signup(){
-  let r = await fetch('http://localhost:5000/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name.value,email:email.value,password:pass.value})});
-  let d = await r.json(); msg.innerText = d.msg;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('pass').value;
+
+  if(!name || !email || !password){
+    msg.innerText = "Pehle Name, Email, Password sab likho!";
+    return;
+  }
+
+  msg.innerText = "Wait... Signup ho raha hai...";
+  try{
+    let r = await fetch('http://localhost:5000/api/signup', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name, email, password})
+    });
+    let d = await r.json();
+    msg.innerText = d.msg;
+  }catch(e){
+    msg.innerText = "Backend band hai! Pehle server.js chalao";
+  }
 }
+
 async function login(){
-  let r = await fetch('http://localhost:5000/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email.value,password:pass.value})});
-  let d = await r.json();
-  if(d.token){ localStorage.setItem('token',d.token); localStorage.setItem('role',d.role); msg.innerText='Login Ho Gaya! Role: '+d.role; }
-  else msg.innerText = d.msg;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('pass').value;
+
+  if(!email || !password){
+    msg.innerText = "Pehle Email aur Password likho!";
+    return;
+  }
+
+  msg.innerText = "Wait... Login ho raha hai...";
+  try{
+    let r = await fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, password})
+    });
+    let d = await r.json();
+    if(d.token){
+      localStorage.setItem('token', d.token);
+      localStorage.setItem('role', d.role);
+      msg.innerText = "Login ho gaya! Welcome " + d.name;
+      setTimeout(()=>{ window.location.href="index.html"; }, 1000);
+    } else {
+      msg.innerText = d.msg;
+    }
+  }catch(e){
+    msg.innerText = "Backend band hai! Pehle server.js chalao";
+  }
 }
-</script></body></html>
+</script>
+
+</body>
+</html>
